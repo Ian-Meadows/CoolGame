@@ -7,7 +7,7 @@ public class Player : Being
 
     float speed = 10;
 
-    Dictionary<ElementType, int> elements;
+    private Dictionary<ElementType, int> elements;
 
     protected override void Init()
     {
@@ -50,6 +50,11 @@ public class Player : Being
     public void AddElement(ElementType type)
     {
         elements[type]++;
+    }
+
+    public int GetElementAmount(ElementType type)
+    {
+        return elements[type];
     }
 
 

@@ -14,14 +14,7 @@ public class Element : MonoBehaviour
 {
 
     public Player player;
-
-    public Color airColor;
-    public Color waterColor;
-    public Color earthColor;
-    public Color fireColor;
-    public Color lightColor;
-    public Color darkColor;
-    public Color NONEColor;
+    public ElementController ec;
 
     //might want to add magnet range thingy
     const float moveDistance = 2;
@@ -42,6 +35,7 @@ public class Element : MonoBehaviour
     {
         //TODO: replace with auto setting on creation
         player = FindObjectOfType<Player>();
+        ec = FindObjectOfType<ElementController>();
 
         sr = GetComponent<SpriteRenderer>();
 
@@ -85,32 +79,6 @@ public class Element : MonoBehaviour
             Debug.LogError("ERROR: sprite renderer is null");
             return;
         }
-        switch(elementType)
-        {
-            case ElementType.Air:
-                sr.color = airColor;
-                return;
-            case ElementType.Water:
-                sr.color = waterColor;
-                return;
-            case ElementType.Earth:
-                sr.color = earthColor;
-                return;
-            case ElementType.Fire:
-                sr.color = fireColor;
-                return;
-            case ElementType.Light:
-                sr.color = lightColor;
-                return;
-            case ElementType.Dark:
-                sr.color = darkColor;
-                return;
-            case ElementType.NONE:
-                sr.color = NONEColor;
-                return;
-            default:
-                sr.color = NONEColor;
-                return;
-        }
+        sr.color = ec.GetColor(elementType);
     }
 }
