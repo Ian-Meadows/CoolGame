@@ -9,9 +9,13 @@ public class Player : Being
 
     private Dictionary<ElementType, int> elements;
 
+
     protected override void Init()
     {
         InitElements();
+
+        health = 10;
+        size = 1;
     }
 
     protected override void Move()
@@ -45,11 +49,37 @@ public class Player : Being
             MoveTo(dir + transform.position);
         }
 
+        Rotate();
+
+    }
+
+    private void Rotate()
+    {
+        Vector3 lookPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        lookPos = transform.position - lookPos;
+        float angle = Mathf.Atan2(lookPos.y, lookPos.x) * Mathf.Rad2Deg;
+
+        //add 90 to fix angling problem
+        RotateTo(angle + 90);
     }
 
     public void AddElement(ElementType type)
     {
         elements[type]++;
+    }
+    public void AddElements(List<ElementType> types)
+    {
+        foreach(ElementType element in types)
+        {
+            elements[element]++;
+        }
+    }
+    public void RemoveElement(ElementType type)
+    {
+        if(elements[type] > 0)
+        {
+            elements[type]--;
+        }
     }
 
     public int GetElementAmount(ElementType type)

@@ -7,6 +7,11 @@ public abstract class Being : MonoBehaviour
 
     private Rigidbody2D rb;
 
+    public int health { get; protected set; }
+    public int maxHealth { get; protected set; }
+
+    public float size { get; protected set; }
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -19,7 +24,11 @@ public abstract class Being : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        
+        if(health <= 0)
+        {
+            Dying();
+            Destroy(gameObject);
+        }
     }
 
     private void FixedUpdate()
@@ -41,5 +50,38 @@ public abstract class Being : MonoBehaviour
     protected void RotateTo(float angle)
     {
         rb.MoveRotation(angle);
+    }
+
+    protected virtual void Dying()
+    {
+
+    }
+
+    protected virtual void DamageTaken()
+    {
+
+    }
+
+    protected virtual void Healed()
+    {
+
+    }
+
+    public void Heal(int amount)
+    {
+        health += amount;
+        if(health > maxHealth)
+        {
+            health = maxHealth;
+        }
+
+        //TODO: maybe check for over redundancies
+        Healed();
+    }
+    public void Damage(int amount)
+    {
+        health -= amount;
+
+        DamageTaken();
     }
 }
